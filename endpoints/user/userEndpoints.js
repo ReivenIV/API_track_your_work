@@ -27,7 +27,7 @@ module.exports = (app, db) => {
 
   app.post('/api/v1/user/register', async (req, res, next) => {
     try {
-      let checkAllUsers = await userModel.getByEmail(req.body);
+      let checkAllUsers = await userModel.getByEmailOrUsername(req.body);
 
       if (checkAllUsers.length > 0) {
         res.json({ status: 400, msg: 'email already stored in DB' });
