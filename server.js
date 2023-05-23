@@ -1,12 +1,11 @@
 const express = require('express');
-const app = express();
-
 const { createPool } = require('mysql2/promise');
 require('dotenv').config();
+const fileUpload = require('express-fileupload');
+
+const app = express();
 const cors = require('cors');
 app.use(cors());
-
-const fileUpload = require('express-fileupload');
 
 app.use(
   fileUpload({
@@ -21,6 +20,9 @@ app.use(express.static(__dirname + '/public'));
 
 const PORT = process.env.PORT;
 
+// Import endpoints
+const userEndpoints = require('./endpoints/user/userEndpoints');
+
 (async () => {
   try {
     let constantRes;
@@ -31,22 +33,10 @@ const PORT = process.env.PORT;
       port: process.env.DB_PORT,
     });
     setInterval(async () => {
-      constantRes = await db.query('SELECT 1');
-      console.log(constantRes[0]);
+      await db.query('SELECT 1');
     }, 100000);
 
-    //* Simple test endpoint
-    // app.get('/test', async (req, res, next) => {
-    //   try {
-    //     res.json({
-    //       status: 200,
-    //       msg: 'Welcome to your API BEER FOR YOU my friend!',
-    //     });
-    //     console.log('hola terminal');
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // });
+    userEndpoints(app, db);
 
     app.listen(PORT, () => {
       console.log(`Listening on PORT: ${PORT}`);
