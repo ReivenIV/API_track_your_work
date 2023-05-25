@@ -19,9 +19,12 @@ module.exports = (app, db) => {
         return res.json({ status: 400, msg: 'email already stored in DB' });
       }
       const resgiterResponse = await userModel.registerUser(req.body);
+      let token = await userModel.authenticateUser(req.body);
+
       return res.json({
         user_id: resgiterResponse[0].insertId,
         msg: 'User aded to database',
+        token: token,
       });
     } catch (error) {
       next(error);
