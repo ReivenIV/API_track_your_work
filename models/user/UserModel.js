@@ -14,28 +14,20 @@ module.exports = (_db) => {
 };
 
 class UserModel {
-  // test module
-  static test() {
-    try {
-      let testVar = 'testing ModuleUser';
-      return testVar;
-    } catch (error) {
-      console.error(error);
-    }
-  }
   static async getByEmailOrUsername(data) {
     const query =
-      'SELECT * FROM `api_db_track`.`users` WHERE (email = ? OR username = ?) ';
+      'SELECT * FROM `api_db_track`.`users` WHERE (email = ? OR username = ?)';
     const response = await db.query(query, [data.email, data.username]);
+
     return response[0];
   }
 
   static async registerUser(data) {
-    const passwordHash = bcrypt.hash(data.password, saltRounds);
+    const passwordHash = await bcrypt.hash(data.password, saltRounds);
 
     const response = await db.query(
-      'INSERT INTO `api_db_track`.`users` (`username`, `password`, `email`, `created_at`,`timezone`, `role`) VALUES (?,?, ?, NOW(), ?, ?)',
-      [data.username, passwordHash, data.email, data.timezone, data.role],
+      'INSERT INTO `api_db_track`.`users` (`username`, `password`, `email`, `created_at`,`timezone`, `role`) VALUES (?,?, ?, NOW(), ?, "client")',
+      [data.username, passwordHash, data.email, data.timezone],
     );
     return response;
   }

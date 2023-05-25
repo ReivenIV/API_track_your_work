@@ -25,13 +25,13 @@ const userEndpoints = require('./endpoints/user/userEndpoints');
 
 (async () => {
   try {
-    let constantRes;
     const db = await createPool({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       port: process.env.DB_PORT,
     });
+
     setInterval(async () => {
       await db.query('SELECT 1');
     }, 100000);
