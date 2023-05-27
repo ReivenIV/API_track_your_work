@@ -1,2 +1,11 @@
 ###
-GET http://localhost:9200/test
+dPOST http://localhost:9200/api/v1/user/register
+Content-Type: application/json
+
+{
+    "username":"Carlos",
+    "password":"123",
+    "role":"client",
+    "email":"test@endpoint.com",
+    "timezone": "Europe/Paris"
+}
