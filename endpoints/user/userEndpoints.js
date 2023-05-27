@@ -36,7 +36,12 @@ module.exports = (app, db) => {
   app.post('/api/v1/user/data', async (req, res, next) => {
     try {
       let userData = await userModel.getByUserId(req.body.user_id);
-      console.log(userData[0]);
+
+      if(userData.length === 0){
+       return res
+          .status(401)
+          .json({ msg: "user not found in DB" });   
+      }
 
       return res.status(200).json({
         user_id: userData[0].id,

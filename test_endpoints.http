@@ -15,5 +15,5 @@ POST http://localhost:9200/api/v1/user/data
 Content-Type: application/json
 
 {
-   "user_id":7
+   "user_id":8
 }
