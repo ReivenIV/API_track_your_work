@@ -16,12 +16,12 @@ module.exports = (app, db) => {
       let checkAllUsers = await userModel.getByEmailOrUsername(req.body);
 
       if (checkAllUsers.length > 0) {
-        return res.json({ status: 400, msg: 'email already stored in DB' });
+        return res.status(401).json({ msg: 'email already stored in DB' });
       }
       const resgiterResponse = await userModel.registerUser(req.body);
       let token = await userModel.authenticateUser(req.body);
 
-      return res.json({
+      return res.status(200).json({
         user_id: resgiterResponse[0].insertId,
         msg: 'User aded to database',
         token: token,
