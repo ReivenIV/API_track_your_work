@@ -22,6 +22,12 @@ class UserModel {
     return response[0];
   }
 
+  static async getByUserId(id) {
+    const query = 'SELECT * FROM `api_db_track`.`users` WHERE id = ?;';
+    const response = await db.query(query, [id]);
+    return response[0];
+  }
+
   static async registerUser(data) {
     const passwordHash = await bcrypt.hash(data.password, saltRounds);
 

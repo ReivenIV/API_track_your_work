@@ -16,7 +16,9 @@ module.exports = (app, db) => {
       let checkAllUsers = await userModel.getByEmailOrUsername(req.body);
 
       if (checkAllUsers.length > 0) {
-        return res.status(401).json({ msg: 'email already stored in DB' });
+        return res
+          .status(401)
+          .json({ msg: 'email or username already stored in DB' });
       }
       const resgiterResponse = await userModel.registerUser(req.body);
       let token = await userModel.authenticateUser(req.body);
@@ -25,6 +27,25 @@ module.exports = (app, db) => {
         user_id: resgiterResponse[0].insertId,
         msg: 'User aded to database',
         token: token,
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.post('/api/v1/user/data', async (req, res, next) => {
+    try {
+      let userData = await userModel.getByUserId(req.body.user_id);
+      console.log(userData[0]);
+
+      return res.status(200).json({
+        user_id: userData[0].id,
+        username: userData[0].username,
+        email: userData[0].email,
+        created_at: userData[0].created_at,
+        updated_at: userData[0].updated_at,
+        timezone: userData[0].timezone,
+        role: userData[0].role,
       });
     } catch (error) {
       next(error);
