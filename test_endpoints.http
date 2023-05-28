@@ -3,12 +3,25 @@ POST http://localhost:9200/api/v1/user/register
 Content-Type: application/json
 
 {
-    "username":"Carlos",
+    "username":"Juan",
     "password":"123",
     "role":"client",
-    "email":"test@endpoint.com",
+    "email":"Juan@endpoint.com",
     "timezone": "Europe/Paris"
 }
+
+###
+POST http://localhost:9200/api/v1/user/login
+Content-Type: application/json
+
+{
+    "username":"Juan",
+    "password":"123",
+    "role":"client",
+    "email":"Juan@endpoint.com",
+    "timezone": "Europe/Paris"
+}
+
 
 ###
 POST http://localhost:9200/api/v1/user/data

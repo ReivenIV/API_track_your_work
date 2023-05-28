@@ -44,4 +44,13 @@ class UserModel {
 
     return token;
   }
+
+  static async testCredentials(payloadPassword, hashedPasword) {
+    let testPasswordResponse = bcrypt.compareSync(
+      payloadPassword,
+      hashedPasword,
+    );
+
+    return testPasswordResponse;
+  }
 }

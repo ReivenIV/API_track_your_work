@@ -33,14 +33,38 @@ module.exports = (app, db) => {
     }
   });
 
+  app.post('/api/v1/user/login', async (req, res, next) => {
+    try {
+      let userData = await userModel.getByEmailOrUsername(req.body);
+
+      if (userData[0].length === 0) {
+        return res.status(401).json({ msg: 'invalid credentials' });
+      }
+      let resultTest = await userModel.testCredentials(
+        req.body.password,
+        userData[0].password,
+      );
+      if (resultTest === false) {
+        return res.status(401).json({ msg: 'invalid credentials' });
+      }
+
+      let token = await userModel.authenticateUser(req.body);
+
+      return res.status(200).json({ user_id: userData[0].id, token: token });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // will SELECT all data by user id.
   app.post('/api/v1/user/data', async (req, res, next) => {
     try {
       let userData = await userModel.getByUserId(req.body.user_id);
 
-      if(userData.length === 0){
-       return res
+      if (userData.length === 0) {
+        return res
           .status(401)
-          .json({ msg: "user not found in DB" });   
+          .json({ msg: 'user not found in DB / credentials not valid' });
       }
 
       return res.status(200).json({
@@ -52,17 +76,6 @@ module.exports = (app, db) => {
         timezone: userData[0].timezone,
         role: userData[0].role,
       });
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  //! testing module
-  app.post('/api/v1/user/authenticate', async (req, res, next) => {
-    try {
-      let response = await userModel.authenticateUser(req.body);
-
-      res.json({ token: response });
     } catch (error) {
       next(error);
     }
