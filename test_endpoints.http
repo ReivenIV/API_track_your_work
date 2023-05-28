@@ -3,10 +3,10 @@ POST http://localhost:9200/api/v1/user/register
 Content-Type: application/json
 
 {
-    "username":"Juan",
+    "username":"Jordan",
     "password":"123",
     "role":"client",
-    "email":"Juan@endpoint.com",
+    "email":"Jordan@endpoint.com",
     "timezone": "Europe/Paris"
 }
 
@@ -15,16 +15,27 @@ POST http://localhost:9200/api/v1/user/login
 Content-Type: application/json
 
 {
-    "username":"Juan",
+    "username":"Jordan",
     "password":"123",
     "role":"client",
-    "email":"Juan@endpoint.com",
+    "email":"Jordan@endpoint.com",
     "timezone": "Europe/Paris"
 }
 
+###
+PUT http://localhost:9200/api/v1/user/update
+Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE2ODUzMDUxMDJ9.uAHUGpVLeR1vFqNeaU7F2PA9tCOxw2gB0_UqSUpH-p4
+
+{
+    "username":"Marco",
+    "role":"Admin",
+    "email":"marco@endpoint.com",
+    "timezone": "Europe/Paris"
+}
 
 ###
 // you will get all data related to user by id (user_id is in the token after register / login)
 GET http://localhost:9200/api/v1/user/data
 Content-Type: application/json
-x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTY4NTMwMzU0M30.77kghxIFnX3CiJx1_jrEbnFQpVP-VIDKbydpSy9_JZU
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE2ODUzMDM4NDl9.1q0J-m0FVrV6OI2B9HOfK41aCsuyeXVLI0ywEfjKukE

@@ -80,4 +80,26 @@ module.exports = (app, db) => {
       next(error);
     }
   });
+
+  app.put('/api/v1/user/update', authenticateToken, async (req, res, next) => {
+    try {
+      let updatedData = await userModel.updateUser(req.body, req.id);
+
+      if (updatedData.affectedRows === 0) {
+        res.status(400).json({
+          msg: 'user not updated',
+          affectedRows: updatedData[0].affectedRows,
+        });
+      }
+
+      res
+        .status(200)
+        .json({
+          msg: 'user updated',
+          affectedRows: updatedData[0].affectedRows,
+        });
+    } catch (error) {
+      next(error);
+    }
+  });
 };

@@ -56,4 +56,18 @@ class UserModel {
 
     return testPasswordResponse;
   }
+
+  static async updateUser(data, id) {
+    let query =
+      'UPDATE `api_db_track`.`users` SET `username`= ?, `email`=?, `timezone`=?, `updated_at`=NOW() WHERE `id` =?;';
+
+    const response = await db.query(query, [
+      data.username,
+      data.email,
+      data.timezone,
+      id,
+    ]);
+
+    return response;
+  }
 }
