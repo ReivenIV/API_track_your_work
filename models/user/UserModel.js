@@ -40,7 +40,10 @@ class UserModel {
 
   static async authenticateUser(data) {
     let existingUser = await UserModel.getByEmailOrUsername(data);
-    let token = jwt.sign({ userId: existingUser.id }, process.env.JWT_SECRET);
+    let token = jwt.sign(
+      { userId: existingUser[0].id },
+      process.env.JWT_SECRET,
+    );
 
     return token;
   }

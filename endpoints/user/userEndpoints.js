@@ -1,6 +1,7 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const authenticateToken = require('../../middlewares/authenticateToken.js');
 const saltRounds = parseFloat(process.env.JWT_SALT_ROUNDS);
 const secret = process.env.JWT_SECRET;
 
@@ -57,10 +58,9 @@ module.exports = (app, db) => {
   });
 
   // will SELECT all data by user id.
-  app.post('/api/v1/user/data', async (req, res, next) => {
+  app.get('/api/v1/user/data', authenticateToken, async (req, res, next) => {
     try {
-      let userData = await userModel.getByUserId(req.body.user_id);
-
+      let userData = await userModel.getByUserId(req.id);
       if (userData.length === 0) {
         return res
           .status(401)
