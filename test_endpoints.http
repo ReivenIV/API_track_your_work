@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
     "username":"Jordan",
-    "password":"123",
+    "password":"password_for_Jordan",
     "role":"client",
     "email":"Jordan@endpoint.com",
     "timezone": "Europe/Paris"
@@ -25,7 +25,7 @@ Content-Type: application/json
 ###
 PUT http://localhost:9200/api/v1/user/update
 Content-Type: application/json
-x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE2ODUzMDUxMDJ9.uAHUGpVLeR1vFqNeaU7F2PA9tCOxw2gB0_UqSUpH-p4
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE2ODUzNjQ1MDl9.LeKK6BGbBO5n9Df8mv0OSeBSLU4oTMplwyrTm455wRg
 
 {
     "username":"Marco",
@@ -38,10 +38,10 @@ x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJp
 ###
 PUT http://localhost:9200/api/v1/user/update_password
 Content-Type: application/json
-x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE2ODUzMDM4NDl9.1q0J-m0FVrV6OI2B9HOfK41aCsuyeXVLI0ywEfjKukE
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE2ODUzNjQ2NTh9.JLYKzXAmSd9jtYS8-I-m2tLY_cFSoRCFdJUrth742dQ
 
 {
-    "new_password":"new_password"
+    "new_password":"password_for_Jordan"
 
 }
 
@@ -50,4 +50,4 @@ x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJp
 // you will get all data related to user by id (user_id is in the token after register / login)
 GET http://localhost:9200/api/v1/user/data
 Content-Type: application/json
-x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE2ODUzMDM4NDl9.1q0J-m0FVrV6OI2B9HOfK41aCsuyeXVLI0ywEfjKukE
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE2ODUzNjQ2MjJ9.T7Xrw_Fy9KOI-V7iqEgXg2l0vo4ArkXAD-_vB5klUUk

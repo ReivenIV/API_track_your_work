@@ -111,16 +111,16 @@ module.exports = (app, db) => {
           req.id,
         );
 
-        if (updatedData[0].affectedRows === 0) {
+        if (result[0].affectedRows === 0) {
           res.status(400).json({
             msg: 'user not updated',
-            affectedRows: updatedData[0].affectedRows,
+            affectedRows: result[0].affectedRows,
           });
         }
 
         res.status(200).json({
           msg: 'password updated',
-          affectedRows: updatedData[0].affectedRows,
+          affectedRows: result[0].affectedRows,
         });
         console.log(result);
       } catch (error) {
