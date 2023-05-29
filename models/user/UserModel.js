@@ -29,11 +29,11 @@ class UserModel {
   }
 
   static async registerUser(data) {
-    const passwordHash = await bcrypt.hash(data.password, saltRounds);
+    const passwordHashed = await bcrypt.hash(data.password, saltRounds);
 
     const response = await db.query(
       'INSERT INTO `api_db_track`.`users` (`username`, `password`, `email`, `created_at`,`timezone`, `role`) VALUES (?,?, ?, NOW(), ?, "client")',
-      [data.username, passwordHash, data.email, data.timezone],
+      [data.username, passwordHashed, data.email, data.timezone],
     );
     return response;
   }
@@ -67,6 +67,15 @@ class UserModel {
       data.timezone,
       id,
     ]);
+
+    return response;
+  }
+
+  static async updatePassword(newPassword, id) {
+    let query =
+      'UPDATE `api_db_track`.`users` SET `password`= ?,`updated_at`=NOW() WHERE `id` =?;';
+    const passwordHashed = await bcrypt.hash(newPassword, saltRounds);
+    const response = await db.query(query, [passwordHashed, id]);
 
     return response;
   }

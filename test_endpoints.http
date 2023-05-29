@@ -34,6 +34,18 @@ x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJp
     "timezone": "Europe/Paris"
 }
 
+
+###
+PUT http://localhost:9200/api/v1/user/update_password
+Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE2ODUzMDM4NDl9.1q0J-m0FVrV6OI2B9HOfK41aCsuyeXVLI0ywEfjKukE
+
+{
+    "new_password":"new_password"
+
+}
+
+
 ###
 // you will get all data related to user by id (user_id is in the token after register / login)
 GET http://localhost:9200/api/v1/user/data
