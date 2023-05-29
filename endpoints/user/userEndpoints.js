@@ -122,7 +122,6 @@ module.exports = (app, db) => {
           msg: 'password updated',
           affectedRows: result[0].affectedRows,
         });
-        console.log(result);
       } catch (error) {
         next(error);
       }
