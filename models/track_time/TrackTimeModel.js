@@ -18,7 +18,7 @@ module.exports = (_db) => {
 
 class TrackTimeModel {
   static async addTimeTrack(data, userId) {
-    let query =
+    const query =
       ' INSERT INTO `api_db_track`.`track_time` (`user_id`, `time_start`, `time_end`, `time_spend`, `created_at`, `timezone`, `notes`, `tag`) \
       VALUES ( ?, ?, ?, TIMEDIFF(?, ?), NOW(), ?, ?, ?);';
 
@@ -33,5 +33,15 @@ class TrackTimeModel {
       data.notes,
       data.tag,
     ]);
+    return response;
+  }
+
+  static async getTrackById(userId, trackId) {
+    const query =
+      'SELECT * FROM `api_db_track`.`track_time` WHERE user_id=? AND id=?;';
+
+    const response = await db.query(query, [userId, trackId]);
+
+    return response;
   }
 }
