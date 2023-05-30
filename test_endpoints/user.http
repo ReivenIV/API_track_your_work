@@ -1,3 +1,7 @@
+// ------------------------
+//     User endpoints
+// ------------------------
+
 ###
 POST http://localhost:9200/api/v1/user/register
 Content-Type: application/json
@@ -16,7 +20,7 @@ Content-Type: application/json
 
 {
     "username":"Jordan",
-    "password":"password_for_Jordan",
+    "password":"123",
     "role":"client",
     "email":"Jordan@endpoint.com",
     "timezone": "Europe/Paris"

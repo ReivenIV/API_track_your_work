@@ -22,6 +22,7 @@ const PORT = process.env.PORT;
 
 // Import endpoints
 const userEndpoints = require('./endpoints/user/userEndpoints');
+const trackTimeEndpoints = require('./endpoints/track_time/trackTimeEndpoints');
 
 (async () => {
   try {
@@ -37,6 +38,7 @@ const userEndpoints = require('./endpoints/user/userEndpoints');
     }, 100000);
 
     userEndpoints(app, db);
+    trackTimeEndpoints(app, db);
 
     app.listen(PORT, () => {
       console.log(`Listening on PORT: ${PORT}`);

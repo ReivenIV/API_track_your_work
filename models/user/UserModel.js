@@ -1,19 +1,18 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-//Generates Salt
 const saltRounds = bcrypt.genSaltSync(parseFloat(process.env.JWT_SALT_ROUNDS));
 const jwt = require('jsonwebtoken');
 
 // --------------------
-//     user Models
+//     user Model
 // --------------------
 
 module.exports = (_db) => {
   db = _db;
-  return UserModel;
+  return userModel;
 };
 
-class UserModel {
+class userModel {
   static async getByEmailOrUsername(data) {
     const query =
       'SELECT * FROM `api_db_track`.`users` WHERE (email = ? OR username = ?)';
@@ -39,7 +38,7 @@ class UserModel {
   }
 
   static async authenticateUser(data) {
-    let existingUser = await UserModel.getByEmailOrUsername(data);
+    let existingUser = await userModel.getByEmailOrUsername(data);
     let token = jwt.sign(
       { userId: existingUser[0].id },
       process.env.JWT_SECRET,
