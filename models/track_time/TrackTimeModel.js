@@ -44,4 +44,29 @@ class TrackTimeModel {
 
     return response;
   }
+
+  /*
+
+  UPDATE `api_db_track`.`track_time` SET `time_start` =?, `time_end` = ?, `time_spend` = TIMEDIFF(?, ?), `updated_at` = NOW(), `timezone` = ?, `notes` = ?, `tag` = ? \ WHERE (`id` = ? AND `user_id=?`);
+
+  */
+  static async updateTrackById(data, trackId, userId) {
+    const query =
+      'UPDATE `api_db_track`.`track_time` SET `time_start`=?, `time_end`= ?, `time_spend` = TIMEDIFF(?, ?), `updated_at` = NOW(), `timezone` = ?, `notes` = ?, `tag` = ? \
+     WHERE (`id` = ? AND `user_id`=?);';
+
+    const response = await db.query(query, [
+      data.time_start,
+      data.time_end,
+      //calcul time_spend TIMEDIFF(time_end time_start)
+      data.time_end,
+      data.time_start,
+      data.timezone,
+      data.notes,
+      data.tag,
+      trackId,
+      userId,
+    ]);
+    return response;
+  }
 }

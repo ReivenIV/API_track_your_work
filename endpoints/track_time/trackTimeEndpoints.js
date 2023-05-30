@@ -36,7 +36,7 @@ module.exports = (app, db) => {
   );
 
   app.get(
-    '/api/v1/track_time/get_by_id/:track_id',
+    '/api/v1/track_time/data/:track_id',
     authenticateToken,
     async (req, res, next) => {
       try {
@@ -46,6 +46,39 @@ module.exports = (app, db) => {
         );
 
         return res.status(200).json(responseGet[0][0]);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
+
+  app.put(
+    '/api/v1/track_time/update/:track_id',
+    authenticateToken,
+    async (req, res, next) => {
+      try {
+        let responsePut = await TrackTimeModel.updateTrackById(
+          req.body,
+          req.params.track_id,
+          req.id,
+        );
+        if (responsePut[0].affectedRows === 0) {
+          return res.status(400).json({ msg: 'row not founded in DB' });
+        }
+
+        let responseGet = await TrackTimeModel.getTrackById(
+          req.id,
+          req.params.track_id,
+        );
+
+        return res.status(200).json({
+          affectedRows: responsePut[0].affectedRows,
+          id: req.params.track_id,
+          msg: 'row aupdated',
+          time_start: req.body.time_start,
+          time_end: req.body.time_end,
+          time_spend: responseGet[0][0].time_spend,
+        });
       } catch (error) {
         next(error);
       }
