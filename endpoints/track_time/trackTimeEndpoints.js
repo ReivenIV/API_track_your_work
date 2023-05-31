@@ -84,4 +84,28 @@ module.exports = (app, db) => {
       }
     },
   );
+
+  app.delete(
+    '/api/v1/track_time/delete/:track_id',
+    authenticateToken,
+    async (req, res, next) => {
+      try {
+        let responseDelete = await TrackTimeModel.deleteOneTrack(
+          req.id,
+          req.params.track_id,
+        );
+        if (responseDelete[0].affectedRows === 0) {
+          return res.status(400).json({ msg: 'row not founded in DB' });
+        }
+
+        return res.status(200).json({
+          affectedRows: responseDelete[0].affectedRows,
+          id: req.params.track_id,
+          msg: 'row deleted',
+        });
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 };

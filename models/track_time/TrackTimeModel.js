@@ -1,14 +1,5 @@
-/* query Example 
-INSERT INTO `api_db_track`.`track_time` (`id`, `user_id`, `time_start`, `time_end`, `time_spend`, `created_at`, `updated_at`, `timezone`, `notes`, `tag`) 
-VALUES ('1', '10', '2023-05-30 10:00:00', '2023-05-30 11:30:00', TIMEDIFF('2023-05-30 11:30:00', '2023-05-30 10:00:00'), '2023-05-30 10:00:00', NULL, 'europe/paris', NULL, NULL);
-*/
-require('dotenv').config();
-const bcrypt = require('bcrypt');
-const saltRounds = bcrypt.genSaltSync(parseFloat(process.env.JWT_SALT_ROUNDS));
-const jwt = require('jsonwebtoken');
-
 // ------------------------
-//     Track Time Model
+//    Track Time Model
 // ------------------------
 
 module.exports = (_db) => {
@@ -39,17 +30,10 @@ class TrackTimeModel {
   static async getTrackById(userId, trackId) {
     const query =
       'SELECT * FROM `api_db_track`.`track_time` WHERE user_id=? AND id=?;';
-
     const response = await db.query(query, [userId, trackId]);
-
     return response;
   }
 
-  /*
-
-  UPDATE `api_db_track`.`track_time` SET `time_start` =?, `time_end` = ?, `time_spend` = TIMEDIFF(?, ?), `updated_at` = NOW(), `timezone` = ?, `notes` = ?, `tag` = ? \ WHERE (`id` = ? AND `user_id=?`);
-
-  */
   static async updateTrackById(data, trackId, userId) {
     const query =
       'UPDATE `api_db_track`.`track_time` SET `time_start`=?, `time_end`= ?, `time_spend` = TIMEDIFF(?, ?), `updated_at` = NOW(), `timezone` = ?, `notes` = ?, `tag` = ? \
@@ -67,6 +51,15 @@ class TrackTimeModel {
       trackId,
       userId,
     ]);
+    return response;
+  }
+
+  static async deleteOneTrack(userId, trackId) {
+    const query =
+      'DELETE FROM `api_db_track`.`track_time` WHERE (`user_id`=? AND`id` = ?);';
+
+    const response = await db.query(query, [userId, trackId]);
+
     return response;
   }
 }
