@@ -1,6 +1,8 @@
-require('dotenv').config();
 const authenticateToken = require('../../middlewares/authenticateToken.js');
-const secret = process.env.JWT_SECRET;
+
+// ---------------------------
+//    track time Endpoints
+// ---------------------------
 
 module.exports = (app, db) => {
   const TrackTimeModel = require('../../models/track_time/TrackTimeModel')(db);
