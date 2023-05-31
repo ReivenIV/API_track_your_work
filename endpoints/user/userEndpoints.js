@@ -114,8 +114,17 @@ module.exports = (app, db) => {
   app.put(
     '/api/v1/user/update_password',
     authenticateToken,
+    errorHandler,
     async (req, res, next) => {
       try {
+        let responseGet = await UserModel.getByUserId(req.id);
+
+        if (responseGet.length === 0) {
+          res.status(400).json({
+            msg: 'user not not found in DB',
+          });
+        }
+
         let result = await UserModel.updatePassword(
           req.body.new_password,
           req.id,
