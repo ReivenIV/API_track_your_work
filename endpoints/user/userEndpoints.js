@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const authenticateToken = require('../../middlewares/authenticateToken.js');
 const saltRounds = parseFloat(process.env.JWT_SALT_ROUNDS);
 const secret = process.env.JWT_SECRET;
-
+const errorHandler = require('../../middlewares/errorHandler.js');
 // --------------------
 //    user Endpoints
 // --------------------
@@ -12,7 +12,7 @@ const secret = process.env.JWT_SECRET;
 module.exports = (app, db) => {
   const UserModel = require('../../models/user/UserModel')(db);
 
-  app.post('/api/v1/user/register', async (req, res, next) => {
+  app.post('/api/v1/user/register', errorHandler, async (req, res, next) => {
     try {
       let checkAllUsers = await UserModel.getByEmailOrUsername(req.body);
 
@@ -34,7 +34,7 @@ module.exports = (app, db) => {
     }
   });
 
-  app.post('/api/v1/user/login', async (req, res, next) => {
+  app.post('/api/v1/user/login', errorHandler, async (req, res, next) => {
     try {
       let userData = await UserModel.getByEmailOrUsername(req.body);
 
@@ -58,48 +58,58 @@ module.exports = (app, db) => {
   });
 
   // will SELECT all data by user id.
-  app.get('/api/v1/user/data', authenticateToken, async (req, res, next) => {
-    try {
-      let userData = await UserModel.getByUserId(req.id);
-      if (userData.length === 0) {
-        return res
-          .status(401)
-          .json({ msg: 'user not found in DB / credentials not valid' });
+  app.get(
+    '/api/v1/user/data',
+    authenticateToken,
+    errorHandler,
+    async (req, res, next) => {
+      try {
+        let userData = await UserModel.getByUserId(req.id);
+        if (userData.length === 0) {
+          return res
+            .status(401)
+            .json({ msg: 'user not found in DB / credentials not valid' });
+        }
+
+        return res.status(200).json({
+          user_id: userData[0].id,
+          username: userData[0].username,
+          email: userData[0].email,
+          created_at: userData[0].created_at,
+          updated_at: userData[0].updated_at,
+          timezone: userData[0].timezone,
+          role: userData[0].role,
+        });
+      } catch (error) {
+        next(error);
       }
+    },
+  );
 
-      return res.status(200).json({
-        user_id: userData[0].id,
-        username: userData[0].username,
-        email: userData[0].email,
-        created_at: userData[0].created_at,
-        updated_at: userData[0].updated_at,
-        timezone: userData[0].timezone,
-        role: userData[0].role,
-      });
-    } catch (error) {
-      next(error);
-    }
-  });
+  app.put(
+    '/api/v1/user/update',
+    authenticateToken,
+    errorHandler,
+    async (req, res, next) => {
+      try {
+        let updatedData = await UserModel.updateUser(req.body, req.id);
 
-  app.put('/api/v1/user/update', authenticateToken, async (req, res, next) => {
-    try {
-      let updatedData = await UserModel.updateUser(req.body, req.id);
+        if (updatedData[0].affectedRows === 0) {
+          res.status(400).json({
+            msg: 'user not updated',
+            affectedRows: updatedData[0].affectedRows,
+          });
+        }
 
-      if (updatedData[0].affectedRows === 0) {
-        res.status(400).json({
-          msg: 'user not updated',
+        res.status(200).json({
+          msg: 'user updated',
           affectedRows: updatedData[0].affectedRows,
         });
+      } catch (error) {
+        next(error);
       }
-
-      res.status(200).json({
-        msg: 'user updated',
-        affectedRows: updatedData[0].affectedRows,
-      });
-    } catch (error) {
-      next(error);
-    }
-  });
+    },
+  );
 
   app.put(
     '/api/v1/user/update_password',

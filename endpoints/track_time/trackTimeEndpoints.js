@@ -1,5 +1,6 @@
 const authenticateToken = require('../../middlewares/authenticateToken.js');
-
+const validator = require('./validator.js');
+const errorHandler = require('../../middlewares/errorHandler.js');
 // ---------------------------
 //    track time Endpoints
 // ---------------------------
@@ -10,6 +11,8 @@ module.exports = (app, db) => {
   app.post(
     '/api/v1/track_time/add',
     authenticateToken,
+    validator,
+    errorHandler,
     async (req, res, next) => {
       try {
         let responseAdd = await TrackTimeModel.addTimeTrack(req.body, req.id);
@@ -40,6 +43,7 @@ module.exports = (app, db) => {
   app.get(
     '/api/v1/track_time/data/:track_id',
     authenticateToken,
+    errorHandler,
     async (req, res, next) => {
       try {
         let responseGet = await TrackTimeModel.getTrackById(
@@ -57,6 +61,7 @@ module.exports = (app, db) => {
   app.put(
     '/api/v1/track_time/update/:track_id',
     authenticateToken,
+    errorHandler,
     async (req, res, next) => {
       try {
         let responsePut = await TrackTimeModel.updateTrackById(
@@ -90,6 +95,7 @@ module.exports = (app, db) => {
   app.delete(
     '/api/v1/track_time/delete/:track_id',
     authenticateToken,
+    errorHandler,
     async (req, res, next) => {
       try {
         let responseDelete = await TrackTimeModel.deleteOneTrack(

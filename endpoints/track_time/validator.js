@@ -2,22 +2,32 @@
 //    track time validator
 // ---------------------------
 
-// const authenticateToken = (req, res, next) => {
-//   const authHeader = req.headers['x-access-token'];
-//   const token = authHeader && authHeader.split(' ')[1];
+const validator = (req, res, next) => {
+  //   if (req.body.drug_name === undefined) {
+  //     let err = new Error(JSON.stringify({ validator: "drug_name is undefined" }));
+  //     err.statusCode = 400;
+  //     return next(err);
+  //   }
 
-//   if (token === undefined) {
-//     res.status(404).json({ msg: 'error, token not found' });
-//   } else {
-//     jwt.verify(token, secret, (err, decoded) => {
-//       if (err) {
-//         res.status(401).json({ msg: 'error token not valid' });
-//       } else {
-//         req.id = decoded.userId;
-//         next();
-//       }
-//     });
-//   }
-// };
+  if (typeof req.body.time_start !== 'string') {
+    let err = new Error(
+      JSON.stringify({ validator: 'time_start must be text format' }),
+    );
+    err.statusCode = 400;
+    return next(err);
+  }
 
-// module.exports = authenticateToken;
+  //   if (req.body.quantity_mg === undefined) {
+  //     let err = new Error(JSON.stringify({ validator: "quantity_mg is undefined" }));
+  //     err.statusCode = 400;
+  //     return next(err);
+  //   }
+
+  //   if (typeof req.body.quantity_mg !== "number") {
+  //     let err = new Error(JSON.stringify({ validator: "quantity_mg must be a  float" }));
+  //     err.statusCode = 400;
+  //     return next(err);
+  //   }
+};
+
+module.exports = validator;
