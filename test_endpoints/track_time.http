@@ -7,6 +7,10 @@ GET http://localhost:9200/api/v1/track_time/data/15
 Content-Type: application/json
 x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJpYXQiOjE2ODU0NDQzODV9.1pT77AYtCmGPXQKCm6ha9gvAppedc-vncNPZ8UVM7sw
 
+###
+GET http://localhost:9200/api/v1/track_time/all_data
+Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJpYXQiOjE2ODU0NDQzODV9.1pT77AYtCmGPXQKCm6ha9gvAppedc-vncNPZ8UVM7sw
 
 ###
 POST http://localhost:9200/api/v1/track_time/add

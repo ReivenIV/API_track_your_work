@@ -1,5 +1,5 @@
 const authenticateToken = require('../../middlewares/authenticateToken.js');
-const validator = require('./validator.js');
+//const validator = require('./validator.js');
 const errorHandler = require('../../middlewares/errorHandler.js');
 // ---------------------------
 //    track time Endpoints
@@ -11,7 +11,7 @@ module.exports = (app, db) => {
   app.post(
     '/api/v1/track_time/add',
     authenticateToken,
-    validator,
+    //validator,
     errorHandler,
     async (req, res, next) => {
       try {
@@ -50,7 +50,27 @@ module.exports = (app, db) => {
           req.id,
           req.params.track_id,
         );
+        if (responseGet[0].length === 0) {
+          return res.status(400).json({ msg: 'track_time not found in DB' });
+        }
+        return res.status(200).json(responseGet[0][0]);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 
+  app.get(
+    '/api/v1/track_time/all_data',
+    authenticateToken,
+    errorHandler,
+    async (req, res, next) => {
+      try {
+        let responseGet = await TrackTimeModel.getAllData(req.id);
+
+        if (responseGet[0].length === 0) {
+          return res.status(200).json({ msg: "User doesn't have data" });
+        }
         return res.status(200).json(responseGet[0][0]);
       } catch (error) {
         next(error);

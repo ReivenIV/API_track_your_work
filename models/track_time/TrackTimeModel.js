@@ -54,6 +54,14 @@ class TrackTimeModel {
     return response;
   }
 
+  static async getAllData(userId) {
+    const query =
+      'SELECT * FROM `api_db_track`.`track_time` WHERE `user_id`=?;';
+
+    const response = await db.query(query, [userId]);
+    return response;
+  }
+
   static async deleteOneTrack(userId, trackId) {
     const query =
       'DELETE FROM `api_db_track`.`track_time` WHERE (`user_id`=? AND`id` = ?);';
