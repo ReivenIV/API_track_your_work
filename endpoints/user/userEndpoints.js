@@ -1,10 +1,11 @@
 require('dotenv').config();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+//const bcrypt = require('bcrypt');
+//const jwt = require('jsonwebtoken');
 const authenticateToken = require('../../middlewares/authenticateToken.js');
-const saltRounds = parseFloat(process.env.JWT_SALT_ROUNDS);
-const secret = process.env.JWT_SECRET;
+//const saltRounds = parseFloat(process.env.JWT_SALT_ROUNDS);
+//const secret = process.env.JWT_SECRET;
 const errorHandler = require('../../middlewares/errorHandler.js');
+const validator = require('../../middlewares/validator.js');
 // --------------------
 //    user Endpoints
 // --------------------
@@ -12,7 +13,7 @@ const errorHandler = require('../../middlewares/errorHandler.js');
 module.exports = (app, db) => {
   const UserModel = require('../../models/user/UserModel')(db);
 
-  app.post('/api/v1/user/register', errorHandler, async (req, res, next) => {
+  app.post('/api/v1/user/register', errorHandler, validator.validatorRegister, async (req, res, next) => {
     try {
       let checkAllUsers = await UserModel.getByEmailOrUsername(req.body);
 
