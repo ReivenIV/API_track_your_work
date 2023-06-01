@@ -1,5 +1,5 @@
 const authenticateToken = require('../../middlewares/authenticateToken.js');
-//const validator = require('./validator.js');
+const validator = require('../../middlewares/validator.js');
 const errorHandler = require('../../middlewares/errorHandler.js');
 // ---------------------------
 //    track time Endpoints
@@ -11,7 +11,7 @@ module.exports = (app, db) => {
   app.post(
     '/api/v1/track_time/add',
     authenticateToken,
-    //validator,
+    validator.validatorTrack,
     errorHandler,
     async (req, res, next) => {
       try {
@@ -81,6 +81,7 @@ module.exports = (app, db) => {
   app.put(
     '/api/v1/track_time/update/:track_id',
     authenticateToken,
+    validator.validatorTrack,
     errorHandler,
     async (req, res, next) => {
       try {
