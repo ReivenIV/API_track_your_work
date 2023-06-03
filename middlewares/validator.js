@@ -3,16 +3,25 @@
 // ---------------------------
 
 class validatorModel {
-
-
   static validatorRegister(req, res, next) {
-
-    if (!req.body.username || !req.body.password || !req.body.role || !req.body.email || !req.body.timezone ) {
+    if (
+      !req.body.username ||
+      !req.body.password ||
+      !req.body.role ||
+      !req.body.email ||
+      !req.body.timezone
+    ) {
       return res.status(400).json({ msg: 'Missing credentials in payload' });
     }
 
-    if (typeof req.body.username !== "string"|| typeof req.body.password !== "string"|| typeof req.body.role !== "string"|| typeof req.body.email !== "string"|| typeof req.body.timezone !== "string") {
-      return res.status(400).json({ msg: 'Invalid credentials in format'});      
+    if (
+      typeof req.body.username !== 'string' ||
+      typeof req.body.password !== 'string' ||
+      typeof req.body.role !== 'string' ||
+      typeof req.body.email !== 'string' ||
+      typeof req.body.timezone !== 'string'
+    ) {
+      return res.status(400).json({ msg: 'Invalid credentials in format' });
     }
 
     const emailRegex = /^\S+@\S+\.\S+$/;

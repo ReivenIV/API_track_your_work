@@ -13,27 +13,32 @@ const validator = require('../../middlewares/validator.js');
 module.exports = (app, db) => {
   const UserModel = require('../../models/user/UserModel')(db);
 
-  app.post('/api/v1/user/register', errorHandler, validator.validatorRegister, async (req, res, next) => {
-    try {
-      let checkAllUsers = await UserModel.getByEmailOrUsername(req.body);
+  app.post(
+    '/api/v1/user/register',
+    errorHandler,
+    validator.validatorRegister,
+    async (req, res, next) => {
+      try {
+        let checkAllUsers = await UserModel.getByEmailOrUsername(req.body);
 
-      if (checkAllUsers.length > 0) {
-        return res
-          .status(401)
-          .json({ msg: 'email or username already stored in DB' });
+        if (checkAllUsers.length > 0) {
+          return res
+            .status(401)
+            .json({ msg: 'email or username already stored in DB' });
+        }
+        const resgiterResponse = await UserModel.registerUser(req.body);
+        let token = await UserModel.authenticateUser(req.body);
+
+        return res.status(200).json({
+          user_id: resgiterResponse[0].insertId,
+          msg: 'User aded to database',
+          token: token,
+        });
+      } catch (error) {
+        next(error);
       }
-      const resgiterResponse = await UserModel.registerUser(req.body);
-      let token = await UserModel.authenticateUser(req.body);
-
-      return res.status(200).json({
-        user_id: resgiterResponse[0].insertId,
-        msg: 'User aded to database',
-        token: token,
-      });
-    } catch (error) {
-      next(error);
-    }
-  });
+    },
+  );
 
   app.post('/api/v1/user/login', errorHandler, async (req, res, next) => {
     try {

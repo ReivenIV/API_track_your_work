@@ -12,6 +12,7 @@ GET http://localhost:9200/api/v1/track_time/all_data
 Content-Type: application/json
 x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJpYXQiOjE2ODU0NDQzODV9.1pT77AYtCmGPXQKCm6ha9gvAppedc-vncNPZ8UVM7sw
 
+// V1 
 ###
 POST http://localhost:9200/api/v1/track_time/add
 Content-Type: application/json
@@ -22,7 +23,6 @@ x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJp
   "time_end":"2023-05-30 11:30:00",
   "timezone":"europe/paris"
 }
-
 
 ###
 PUT http://localhost:9200/api/v1/track_time/update/15
@@ -37,6 +37,32 @@ x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJp
   "tag":"client_test"
 }
 
+###
+//V2 will have time_spend 
+POST http://localhost:9200/api/v2/track_time/add
+Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJpYXQiOjE2ODU0NDQzODV9.1pT77AYtCmGPXQKCm6ha9gvAppedc-vncNPZ8UVM7sw
+
+{
+  "time_start":"2023-05-30 10:00:00",
+  "time_end":"2023-05-30 11:30:00",
+  "time_spend":"02:30:00",
+  "timezone":"europe/paris"
+}
+
+###
+PUT http://localhost:9200/api/v2/track_time/update/33
+Content-Type: application/json
+x-access-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJpYXQiOjE2ODU0NDQzODV9.1pT77AYtCmGPXQKCm6ha9gvAppedc-vncNPZ8UVM7sw
+
+{
+  "time_start":"2023-05-30 09:00:00",
+  "time_end":"2023-05-30 12:58:00",
+  "time_spend":"01:30:00",
+  "timezone":"europe/paris",
+  "notes":"test notes",
+  "tag":"client_test"
+}
 
 ###
 DELETE http://localhost:9200/api/v1/track_time/delete/16
