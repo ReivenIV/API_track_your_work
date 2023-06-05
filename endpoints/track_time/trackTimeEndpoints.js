@@ -103,7 +103,7 @@ module.exports = (app, db) => {
         if (responseGet[0].length === 0) {
           return res.status(200).json({ msg: "User doesn't have data" });
         }
-        return res.status(200).json(responseGet[0][0]);
+        return res.status(200).json(responseGet[0]);
       } catch (error) {
         next(error);
       }
