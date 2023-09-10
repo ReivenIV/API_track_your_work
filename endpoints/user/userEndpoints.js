@@ -1,11 +1,8 @@
 require('dotenv').config();
-//const bcrypt = require('bcrypt');
-//const jwt = require('jsonwebtoken');
 const authenticateToken = require('../../middlewares/authenticateToken.js');
-//const saltRounds = parseFloat(process.env.JWT_SALT_ROUNDS);
-//const secret = process.env.JWT_SECRET;
 const errorHandler = require('../../middlewares/errorHandler.js');
 const validator = require('../../middlewares/validator.js');
+
 // --------------------
 //    user Endpoints
 // --------------------
